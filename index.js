@@ -82,6 +82,22 @@ async function run() {
       res.send({ result });
     });
     
+    app.put("/updatetask/:id", async (req, res) => {
+      const id = req.params.id;
+      const {info} = req.body;
+      console.log(id,info);
+      const result = await todolist.updateOne(
+        { _id: new ObjectId(id) }, // Find Data by query many time query type is "_id: id" Cheack on database
+        {
+          $set: info, // Set updated Data
+        },
+        { upsert: true } // define work
+      );
+      res.send({ result });
+    });
+
+
+    
     app.get("/check",(req,res)=>{
       res.send("Database Problem");
     })
