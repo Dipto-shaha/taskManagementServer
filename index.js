@@ -48,6 +48,34 @@ async function run() {
       
     });
 
+    app.post("/addtask", async (req, res) => {
+      const taskInfo = req.body;
+      const result = await todolist.insertOne(taskInfo);
+      res.send(result);
+    });
+
+
+
+    app.get("/tasklist", async (req, res) => {
+      const userEmail = req.query.email;
+      console.log(userEmail)
+      const result = await todolist.find({ email: userEmail }).toArray();
+      res.send(result);
+    });
+    //updateStatus
+    app.put("/updateStatus", async (req, res) => {
+      const {id,status} = req.body;
+      console.log(id);
+      const result = await todolist.updateOne(
+        { _id: new ObjectId(id) }, // Find Data by query many time query type is "_id: id" Cheack on database
+        {
+          $set: { status: status }, // Set updated Data
+        },
+        { upsert: true } // define work
+      );
+      res.send({ result });
+    });
+    
     app.get("/check",(req,res)=>{
       res.send("Database Problem");
     })
