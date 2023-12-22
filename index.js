@@ -96,8 +96,12 @@ async function run() {
       res.send({ result });
     });
 
+    app.delete("/taskdelete/:_id", async (req, res) => {
+      const id = req.params._id;
+      const result = await todolist.deleteOne({_id: new ObjectId(id) });
+      res.send(result);
+    });
 
-    
     app.get("/check",(req,res)=>{
       res.send("Database Problem");
     })
