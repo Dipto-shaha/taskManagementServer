@@ -62,6 +62,12 @@ async function run() {
       const result = await todolist.find({ email: userEmail }).toArray();
       res.send(result);
     });
+    app.get("/gettask/:id", async (req, res) => {
+      const id = req.params.id;
+      console.log(id);
+      const result = await todolist.findOne({ _id: new ObjectId(id) });
+      res.send(result);
+    });
     //updateStatus
     app.put("/updateStatus", async (req, res) => {
       const {id,status} = req.body;
